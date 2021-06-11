@@ -63,16 +63,14 @@ download(const string& address, string& required_time) {
                 cerr << curl_easy_strerror(res) << endl;
                 exit(1);
             }
-            /* else
-            {
                 double time = 0;
                 double* timep = &time;
                 curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, timep);
-                string s = to_string(*timep);
+                string ttime = to_string(*timep);
                 string p = "Time required to establish a connection to the server: ";
-                required_time = p + s;
-                exit(1);
-            }*/
+                string s = "sec";
+                required_time = p + ttime + s;
+
         }
     curl_easy_cleanup(curl);
     return read_input(buffer, false);
@@ -81,14 +79,20 @@ download(const string& address, string& required_time) {
 int
 main(int argc, char* argv[]) {
     Input input;
-    string required_time;
-    if (argc > 1) {
-        input = download(argv[1], required_time);
-    } else {
-        input = read_input(cin, true);
-    }
+    string required_time = "0";
+    if (argc > 1)
+        {
+            input = download(argv[1], required_time);
+        }
+    else
+        {
+            input = read_input(cin, true);
+        }
     const auto bins=make_histogram(input);
 
-    show_histogram_svg(bins);
+    double top = 0;
+    show_histogram_svg(bins, top);
+    svg_text(20, top + 20, required_time);
+    svg_end();
     return 0;
 }
