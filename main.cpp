@@ -4,6 +4,9 @@
 #include <curl/curl.h>
 #include <sstream>
 #include <string>
+#include <windows.h>
+
+DWORD WINAPI GetVersion(void);
 using namespace std;
 
 vector<double>
@@ -77,7 +80,10 @@ download(const string& address, string& required_time) {
 }
 
 int
-main(int argc, char* argv[]) {
+main(int argc, char* argv[])
+{
+
+
     Input input;
     string required_time = "0";
     if (argc > 1)
@@ -90,7 +96,10 @@ main(int argc, char* argv[]) {
         }
     const auto bins=make_histogram(input);
 
-    double top = 0;
+    svg_begin(400, 300);
+    svg_text(20, 20, winversion());
+    svg_text(20, 40, compname());
+    double top = 50;
     show_histogram_svg(bins, top);
     svg_text(20, top + 20, required_time);
     svg_end();
