@@ -83,9 +83,14 @@ download(const string& address, string& required_time) {
 
 int
 main(int argc, char* argv[]) {
-    int WinVersion = GetVersion();
-    printf("%u\n", WinVersion);
-    printf("%x\n", WinVersion);
+    DWORD info = GetVersion();
+    printf("%u\n", info);
+    printf("%x\n", info);
+
+    DWORD mask = 0b00000000'00000000'11111111'11111111;
+    DWORD version = info & mask;
+
+    printf("windows version is %08x\n", version);
     return 0;
     Input input;
     string required_time;
@@ -96,6 +101,7 @@ main(int argc, char* argv[]) {
     }
     const auto bins=make_histogram(input);
 
-    show_histogram_svg(bins);
+    double top = 0;
+    show_histogram_svg(bins, top);
     return 0;
 }
