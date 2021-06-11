@@ -84,7 +84,6 @@ download(const string& address, string& required_time) {
 int
 main(int argc, char* argv[]) {
     int WinVersion = GetVersion();
-    cout << WinVersion << endl;
     printf("%u\n", WinVersion);
     printf("%x\n", WinVersion);
     return 0;
