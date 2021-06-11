@@ -82,22 +82,10 @@ download(const string& address, string& required_time) {
 }
 
 int
-main(int argc, char* argv[]) {
-    DWORD info = GetVersion();
-    DWORD mask = 0x0000ffff;
-    DWORD platform = info >> 16;
-    DWORD version = info & mask;
+main(int argc, char* argv[])
+{
 
-    DWORD mask_2 = 0x0000ff;
-   if ((info & 0x80000000) == 0)
-    {
-        DWORD version_major = version & mask_2;
-        DWORD version_minor = version >> 8;
-        DWORD build = platform;
-        printf("Windows v%u.%u (build %u)", version_major, version_minor, build);
-    }
 
-    return 0;
     Input input;
     string required_time;
     if (argc > 1) {
@@ -107,7 +95,11 @@ main(int argc, char* argv[]) {
     }
     const auto bins=make_histogram(input);
 
-    double top = 0;
+    svg_begin(400, 300);
+    svg_text(20, 20, winversion());
+    svg_text(20, 40, compname());
+    double top = 50;
     show_histogram_svg(bins, top);
+    svg_end();
     return 0;
 }
